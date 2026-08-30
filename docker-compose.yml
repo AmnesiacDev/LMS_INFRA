@@ -1,0 +1,44 @@
+
+services:
+
+  backend:
+    build:
+      context: ./LMS
+      dockerfile: Dockerfile
+    container_name: lms_backend
+    restart: unless-stopped
+    env_file:
+      - ./LMS/.env
+    networks:
+      - lms_net
+
+  frontend:
+    build:
+      context: ./LMS_FrontEnd
+      dockerfile: Dockerfile
+    container_name: lms_frontend
+    restart: unless-stopped
+    networks:
+      - lms_net
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: lms_nginx
+    restart: unless-stopped
+    ports:
+    - "80:80"
+    - "443:443"
+    volumes:
+     ./certs:/etc/nginx/certs:ro
+    depends_on:
+    - backend
+    - frontend
+    networks:
+    - lms_net
+
+networks:
+  lms_net:
+    driver: bridge
+
