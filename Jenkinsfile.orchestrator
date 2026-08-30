@@ -1,0 +1,53 @@
+
+
+pipeline {
+    agent any
+
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+    }
+    triggers {
+        pollSCM('H/5 * * * *')
+    }
+
+    environment {
+        BACKEND_JOB_NAME   = 'lms-backend-pipeline'
+        FRONTEND_JOB_NAME  = 'lms-frontend-pipeline'
+    }
+
+    stages {
+        stage('Trigger backend pipeline') {
+
+            steps {
+                script {
+                    def result = triggerPipeline("${BACKEND_JOB_NAME}")
+                    echo "${result.result}"
+                }
+            }
+        }
+
+        stage('Trigger frontend pipeline') {
+
+            steps {
+                script {
+                    def result = triggerPipeline("${FRONTEND_JOB_NAME}")
+                    echo "${result.result}"
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                if (env.BACKEND_CHANGED != 'true' && env.FRONTEND_CHANGED != 'true') {
+                    echo 'No updates found in either repo this cycle.'
+                }
+            }
+        }
+        unstable {
+            echo 'One or more downstream deploys failed - check the linked job logs. Last-good SHA was NOT advanced, so it will retry next cycle.'
+        }
+    }
+}
