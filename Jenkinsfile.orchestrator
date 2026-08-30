@@ -7,9 +7,6 @@ pipeline {
         timestamps()
         disableConcurrentBuilds()
     }
-    triggers {
-        pollSCM('H/5 * * * *')
-    }
 
     environment {
         BACKEND_JOB_NAME   = 'lms-backend-pipeline'
