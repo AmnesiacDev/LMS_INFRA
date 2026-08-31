@@ -1,7 +1,7 @@
 FROM nginx:alpine3.24
 
 RUN rm /etc/nginx/conf.d/default.conf
-COPY nginx/conf.d/ /etc/nginx/conf.d/
+COPY conf.d/ /etc/nginx/conf.d/
 
 COPY certs/ /etc/nginx/certs/
 
