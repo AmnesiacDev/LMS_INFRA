@@ -3,7 +3,7 @@ services:
 
   backend:
     build:
-      context: ../LMS
+      context: ../lms-backend-pipeline/LMS
       dockerfile: Dockerfile
     container_name: lms_backend
     restart: unless-stopped
@@ -14,7 +14,7 @@ services:
 
   frontend:
     build:
-      context: ../LMS_FrontEnd
+      context: ../lms-frontend-pipeline/LMS_FrontEnd
       dockerfile: Dockerfile
     container_name: lms_frontend
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
 
   nginx:
     build:
-      context: ./nginx
+      context: ../lms-nginx-pipeline/nginx
       dockerfile: Dockerfile
     container_name: lms_nginx
     restart: unless-stopped
