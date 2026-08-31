@@ -23,7 +23,7 @@ services:
 
   nginx:
     build:
-      context: ${WORKDIR}/${JOB_BASE_NAME}/nginx
+      context: ${INFRA_DIR}/nginx
       dockerfile: Dockerfile
     container_name: lms_nginx
     restart: unless-stopped
