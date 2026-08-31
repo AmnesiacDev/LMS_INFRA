@@ -3,12 +3,12 @@ services:
 
   backend:
     build:
-      context: ../../LMS
+      context: ../LMS
       dockerfile: Dockerfile
     container_name: lms_backend
     restart: unless-stopped
     env_file:
-      - ./LMS/.env
+      - ../LMS/.env
     networks:
       - lms_net
 
