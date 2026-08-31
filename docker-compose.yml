@@ -23,8 +23,8 @@ services:
 
   nginx:
     build:
-      context: /opt/LMS_Infra
-      dockerfile: nginx/Dockerfile
+      context: /opt/LMS_Infra/nginx
+      dockerfile: Dockerfile
     container_name: lms_nginx
     restart: unless-stopped
     ports:
