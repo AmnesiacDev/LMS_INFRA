@@ -23,7 +23,7 @@ services:
 
   nginx:
     build:
-      context: ${INFRA_DIR}
+      context: /opt/LMS_Infra
       dockerfile: nginx/Dockerfile
     container_name: lms_nginx
     restart: unless-stopped
