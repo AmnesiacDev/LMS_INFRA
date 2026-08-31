@@ -42,9 +42,9 @@ pipeline {
                         else
                             echo "LMS_Infra does not exist. Cloning..."
             
-                            sudo rm -rf ${INFRA_DIR}
+                            rm -rf ${INFRA_DIR}
             
-                            sudo git clone \
+                            git clone \
                                 ${INFRA_REPO_URL} \
                                 ${INFRA_DIR}
                         fi
