@@ -23,15 +23,13 @@ services:
 
   nginx:
     build:
-      context: ${INFRA_DIR}/nginx
-      dockerfile: Dockerfile
+      context: ${INFRA_DIR}
+      dockerfile: nginx/Dockerfile
     container_name: lms_nginx
     restart: unless-stopped
     ports:
     - "80:80"
     - "443:443"
-    volumes:
-    - ${INFRA_DIR}/certs:/etc/nginx/certs:ro
     depends_on:
     - backend
     - frontend
