@@ -3,18 +3,18 @@ services:
 
   backend:
     build:
-      context: ../LMS
+      context: ${WORKDIR}/${JOB_BASE_NAME}/LMS
       dockerfile: Dockerfile
     container_name: lms_backend
     restart: unless-stopped
     env_file:
-      - ../LMS/.env
+      - ${WORKDIR}/${JOB_BASE_NAME}/LMS/.env
     networks:
       - lms_net
 
   frontend:
     build:
-      context: ../LMS_FrontEnd
+      context: ${WORKDIR}/${JOB_BASE_NAME}/LMS_FrontEnd
       dockerfile: Dockerfile
     container_name: lms_frontend
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
 
   nginx:
     build:
-      context: ../nginx
+      context: ${WORKDIR}/${JOB_BASE_NAME}/nginx
       dockerfile: Dockerfile
     container_name: lms_nginx
     restart: unless-stopped
@@ -31,7 +31,7 @@ services:
     - "80:80"
     - "443:443"
     volumes:
-    - ./certs:/etc/nginx/certs:ro
+    - ${INFRA_DIR}/certs:/etc/nginx/certs:ro
     depends_on:
     - backend
     - frontend
