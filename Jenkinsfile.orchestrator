@@ -16,6 +16,8 @@ pipeline {
         FRONTEND_JOB_NAME  = 'lms-frontend-pipeline'
         NGINX_JOB_NAME = 'lms-nginx-pipeline'
         IMAGE_TAG = "${env.BUILD_NUMBER}"
+        INFRA_DIR        = 'LMS_Infra'
+        INFRA_REPO_URL   = 'https://github.com/AmnesiacDev/LMS_INFRA.git'
     }
 
        
