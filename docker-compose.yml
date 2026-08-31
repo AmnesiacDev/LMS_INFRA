@@ -23,7 +23,7 @@ services:
 
   nginx:
     build:
-      context: ./nginx
+      context: ../nginx
       dockerfile: Dockerfile
     container_name: lms_nginx
     restart: unless-stopped
