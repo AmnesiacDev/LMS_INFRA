@@ -22,7 +22,10 @@ pipeline {
 
             steps {
                 script {
-                    def result = triggerPipeline("${BACKEND_JOB_NAME}", "${IMAGE_TAG}")
+                    def result = triggerPipeline(
+                        env.BACKEND_JOB_NAME,
+                        env.IMAGE_TAG
+                    )
                     echo "${result.result}"
                 }
             }
@@ -32,7 +35,10 @@ pipeline {
 
             steps {
                 script {
-                    def result = triggerPipeline("${FRONTEND_JOB_NAME}", "${IMAGE_TAG}")
+                    def result = triggerPipeline(
+                        env.FRONTEND_JOB_NAME,
+                        env.IMAGE_TAG
+                    )
                     echo "${result.result}"
                 }
             }
