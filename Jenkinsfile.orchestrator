@@ -16,7 +16,7 @@ pipeline {
         FRONTEND_JOB_NAME  = 'lms-frontend-pipeline'
         NGINX_JOB_NAME = 'lms-nginx-pipeline'
         IMAGE_TAG = "${env.BUILD_NUMBER}"
-        INFRA_DIR        = 'LMS_Infra'
+        INFRA_DIR        = '/opt/LMS_Infra'
         INFRA_REPO_URL   = 'https://github.com/AmnesiacDev/LMS_INFRA.git'
     }
 
@@ -44,8 +44,8 @@ pipeline {
                             sudo rm -rf /opt/LMS_Infra
             
                             sudo git clone \
-                                https://github.com/AmnesiacDev/LMS_INFRA.git \
-                                /opt/LMS_Infra
+                                ${INFRA_REPO_URL} \
+                                ${INFRA_DIR}
                         fi
                     '''
             }
@@ -89,7 +89,7 @@ pipeline {
         stage('Deploy') {
             agent {label 'node-agent'}
             steps {
-                dir("/opt/LMS_Infra") {
+                dir("${INFRA_DIR}") {
                     script {
                         composeDeploy()
                     }
