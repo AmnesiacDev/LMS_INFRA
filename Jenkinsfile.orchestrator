@@ -14,7 +14,7 @@ pipeline {
     environment {
         BACKEND_JOB_NAME   = 'lms-backend-pipeline'
         FRONTEND_JOB_NAME  = 'lms-frontend-pipeline'
-        IMAGE_TAG = "${BUILD_NUMBER}"
+        IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
 
     stages {
