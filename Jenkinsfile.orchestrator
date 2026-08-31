@@ -25,13 +25,29 @@ pipeline {
     stages {
 
 
-        stage('Checkout Infra') {
-            agent {label 'node-agent'}
-            steps {
-                dir("${INFRA_DIR}") {
-                    git branch: 'main',
-                        url: "${INFRA_REPO_URL}"                
-                }
+            stage('Checkout Infra') {
+                agent {label 'node-agent'}
+                steps {
+                    sh '''
+                        if [ -d "/opt/LMS_Infra/.git" ]; then
+                            echo "LMS_Infra already exists. Updating..."
+            
+                            cd /opt/LMS_Infra
+            
+                            git fetch origin
+                            git reset --hard origin/main
+                            git clean -fd
+            
+                        else
+                            echo "LMS_Infra does not exist. Cloning..."
+            
+                            sudo rm -rf /opt/LMS_Infra
+            
+                            sudo git clone \
+                                https://github.com/AmnesiacDev/LMS_INFRA.git \
+                                /opt/LMS_Infra
+                        fi
+                    '''
             }
         }
         stage('Trigger backend pipeline') {
@@ -73,7 +89,7 @@ pipeline {
         stage('Deploy') {
             agent {label 'node-agent'}
             steps {
-                dir("${INFRA_DIR}") {
+                dir("/opt/LMS_Infra") {
                     script {
                         composeDeploy()
                     }
