@@ -41,9 +41,7 @@ pipeline {
     post {
         success {
             script {
-                if (env.BACKEND_CHANGED != 'true' && env.FRONTEND_CHANGED != 'true') {
-                    echo 'No updates found in either repo this cycle.'
-                }
+                sh "echo 'success beep boop'"
             }
         }
         unstable {
