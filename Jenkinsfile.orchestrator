@@ -30,24 +30,14 @@ pipeline {
                 agent {label 'node-agent'}
                 steps {
                     sh '''
-                        if [ -d "${INFRA_DIR}/.git" ]; then
-                            echo "LMS_Infra already exists. Updating..."
-            
-                            cd ${INFRA_DIR}
-            
-                            git fetch origin
-                            git reset --hard origin/main
-                            git clean -fd
-            
-                        else
-                            echo "LMS_Infra does not exist. Cloning..."
-            
-                            rm -rf "${INFRA_DIR}"
-            
-                            git clone \
-                                "${INFRA_REPO_URL}" \
-                                "${INFRA_DIR}"
-                        fi
+                        echo "LMS_Infra does not exist. Cloning..."
+        
+                        rm -rf "${INFRA_DIR}"
+        
+                        git clone \
+                            "${INFRA_REPO_URL}" \
+                            "${INFRA_DIR}"
+                    
                     '''
             }
         }
