@@ -14,7 +14,7 @@ services:
 
   frontend:
     build:
-      context: ./LMS_FrontEnd
+      context: ../LMS_FrontEnd
       dockerfile: Dockerfile
     container_name: lms_frontend
     restart: unless-stopped
