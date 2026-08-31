@@ -31,10 +31,10 @@ pipeline {
                 agent {label 'node-agent'}
                 steps {
                     sh '''
-                        if [ -d "/opt/LMS_Infra/.git" ]; then
+                        if [ -d "${INFRA_DIR}/.git" ]; then
                             echo "LMS_Infra already exists. Updating..."
             
-                            cd /opt/LMS_Infra
+                            cd ${INFRA_DIR}
             
                             git fetch origin
                             git reset --hard origin/main
@@ -43,7 +43,7 @@ pipeline {
                         else
                             echo "LMS_Infra does not exist. Cloning..."
             
-                            sudo rm -rf /opt/LMS_Infra
+                            sudo rm -rf ${INFRA_DIR}
             
                             sudo git clone \
                                 ${INFRA_REPO_URL} \
