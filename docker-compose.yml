@@ -3,7 +3,7 @@ services:
 
   backend:
     build:
-      context: ./LMS
+      context: ../LMS
       dockerfile: Dockerfile
     container_name: lms_backend
     restart: unless-stopped
