@@ -3,18 +3,18 @@ services:
 
   backend:
     build:
-      context: ${WORKDIR}/lms-backend-pipeline/LMS
+      context: ${WORKDIR}/LMS
       dockerfile: Dockerfile
     container_name: lms_backend
     restart: unless-stopped
     env_file:
-      - ${WORKDIR}/lms-backend-pipeline/LMS/.env
+      - ${WORKDIR}/LMS/.env
     networks:
       - lms_net
 
   frontend:
     build:
-      context: ${WORKDIR}/lms-frontend-pipeline/LMS_FrontEnd
+      context: ${WORKDIR}/LMS_FrontEnd
       dockerfile: Dockerfile
     container_name: lms_frontend
     restart: unless-stopped
