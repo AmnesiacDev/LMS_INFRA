@@ -16,31 +16,43 @@ pipeline {
         FRONTEND_JOB_NAME  = 'lms-frontend-pipeline'
         NGINX_JOB_NAME = 'lms-nginx-pipeline'
         IMAGE_TAG = "${env.BUILD_NUMBER}"
-        INFRA_DIR        = '/opt/LMS_Infra'
+        INFRA_DIR        = '/git-repos/LMS_Infra'
         INFRA_REPO_URL   = 'https://github.com/AmnesiacDev/LMS_INFRA.git'
         WORKDIR          = '/home/jenkins/agent/workspace/algogambit'
+        TEST_DIR         = '/git-repos/LMS_Test'
+        FRONTEND_REPO_DIR         = '/git-repos/LMS_FrontEnd'
+        FRONTEND_REPO_URL         = 'https://github.com/AmnesiacDev/LMS_FrontEnd.git'
+        BACKEND_REPO_DIR         = '/git-repos/LMS'
+        BACKEND_REPO_URL         = 'https://github.com/AmnesiacDev/LMS.git'
     }
 
        
 
     stages {
 
-
-            stage('Checkout Infra') {
-                agent {label 'node-agent'}
-                steps {
-                    sh '''
-                        echo "LMS_Infra does not exist. Cloning..."
-        
-                        rm -rf "${INFRA_DIR}"
-        
-                        git clone \
-                            "${INFRA_REPO_URL}" \
-                            "${INFRA_DIR}"
-                    
-                    '''
+        stage('Checkout Infra') {
+            agent { docker {
+                image 'git-agent:latest'
+                args '-v /git-repos:/git-repos'
+                }
+            }
+            steps {
+                dir("${INFRA_DIR}") {
+                    git branch: 'main', url: "${INFRA_REPO_URL}"
+                }
             }
         }
+        stage('Checkout Backend') {
+            agent { docker {
+                image 'git-agent:latest'
+                args '-v git-repos:/git-repos'
+                }
+            }
+            steps {
+                checkForUpdate(BACKEND_REPO_DIR, TEST_DIR, BACKEND_REPO_URL)
+            }
+        }
+
         stage('Trigger backend pipeline') {
             steps {
                 script {
@@ -50,6 +62,17 @@ pipeline {
                     )
                     echo "${result.result}"
                 }
+            }
+        }
+
+        stage('Checkout Frontend') {
+            agent { docker {
+                image 'git-agent:latest'
+                args '-v /git-repos:/git-repos'
+                }
+            }
+            steps {
+                checkForUpdates(FRONTEND_REPO_DIR, TEST_DIR, FRONTEND_REPO_URL)
             }
         }
 
@@ -73,22 +96,6 @@ pipeline {
                         env.IMAGE_TAG
                     )
                     echo "${result.result}"
-                }
-            }
-        }
-
-        stage('Deploy') {
-            agent {label 'node-agent'}
-            steps {
-                dir("${INFRA_DIR}") {
-                    script {
-                        sh """
-                            echo "JOB_BASE_NAME=$JOB_BASE_NAME"
-                            echo "WORKDIR=$WORKDIR"
-                            echo "INFRA_DIR=$INFRA_DIR"
-                        """
-                        composeDeploy()
-                    }
                 }
             }
         }
