@@ -18,7 +18,6 @@ pipeline {
         IMAGE_TAG = "${env.BUILD_NUMBER}"
         INFRA_DIR        = '/git-repos/LMS_Infra'
         INFRA_REPO_URL   = 'https://github.com/AmnesiacDev/LMS_INFRA.git'
-        WORKDIR          = '/home/jenkins/agent/workspace/algogambit'
         TEST_DIR         = '/git-repos/LMS_Test'
         FRONTEND_REPO_DIR         = '/git-repos/LMS_FrontEnd'
         FRONTEND_REPO_URL         = 'https://github.com/AmnesiacDev/LMS_FrontEnd.git'
@@ -33,7 +32,7 @@ pipeline {
         stage('Checkout Infra') {
             agent { docker {
                 image 'git-agent:latest'
-                args '-v /git-repos:/git-repos'
+                args '-v git-repos:/git-repos'
                 }
             }
             steps {
@@ -68,11 +67,11 @@ pipeline {
         stage('Checkout Frontend') {
             agent { docker {
                 image 'git-agent:latest'
-                args '-v /git-repos:/git-repos'
+                args '-v git-repos:/git-repos'
                 }
             }
             steps {
-                checkForUpdates(FRONTEND_REPO_DIR, TEST_DIR, FRONTEND_REPO_URL)
+                checkForUpdate(FRONTEND_REPO_DIR, TEST_DIR, FRONTEND_REPO_URL)
             }
         }
 
