@@ -26,7 +26,7 @@ services:
 
   nginx:
     build:
-      context: /opt/LMS_Infra/nginx
+      context: ${WORKDIR}/LMS_Infra/nginx
       dockerfile: Dockerfile
     container_name: lms_nginx
     restart: unless-stopped
