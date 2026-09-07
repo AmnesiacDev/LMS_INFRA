@@ -1,0 +1,12 @@
+services:
+
+  backend:
+    build:
+      context: ${WORKDIR}/LMS
+      dockerfile: Dockerfile
+    container_name: lms_backend
+    restart: unless-stopped
+    env_file:
+      - ${ENV_FILE:-/git-repos/LMS/.env.example}
+    networks:
+      - lms_net
