@@ -8,7 +8,7 @@ services:
     container_name: lms_backend
     restart: unless-stopped
     env_file:
-      - ${ENV_FILE}
+      - ${ENV_FILE:-/git-repos/LMS/.env.example}
     networks:
       - lms_net
 
@@ -17,8 +17,8 @@ services:
       context: ${WORKDIR}/LMS_FrontEnd
       dockerfile: Dockerfile
       args:
-        VITE_API_BASE: ${VITE_API_BASE}
-        VITE_SOCKET_URL: ${VITE_SOCKET_URL}
+        VITE_API_BASE: ${VITE_API_BASE:-}
+        VITE_SOCKET_URL: ${VITE_SOCKET_URL:-}
     container_name: lms_frontend
     restart: unless-stopped
     networks:
