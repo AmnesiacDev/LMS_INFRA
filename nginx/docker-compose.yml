@@ -1,0 +1,21 @@
+services:
+  nginx:
+    build:
+      context: ${WORKDIR}/LMS_Infra/nginx
+      dockerfile: Dockerfile
+    container_name: lms_nginx
+    restart: unless-stopped
+    ports:
+    - "80:80"
+    - "443:443"
+    volumes:
+    - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+    - backend
+    - frontend
+    networks:
+    - lms_net
+
+networks:
+  lms_net:
+    driver: bridge
