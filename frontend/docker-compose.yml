@@ -1,11 +1,12 @@
-frontend:
-    build:
-      context: ${WORKDIR}/LMS_FrontEnd
-      dockerfile: Dockerfile
-      args:
-        VITE_API_BASE: ${VITE_API_BASE:-}
-        VITE_SOCKET_URL: ${VITE_SOCKET_URL:-}
-    container_name: lms_frontend
-    restart: unless-stopped
-    networks:
-      - lms_net
+services:
+    frontend:
+        build:
+          context: ${WORKDIR}/LMS_FrontEnd
+          dockerfile: Dockerfile
+          args:
+            VITE_API_BASE: ${VITE_API_BASE:-}
+            VITE_SOCKET_URL: ${VITE_SOCKET_URL:-}
+        container_name: lms_frontend
+        restart: unless-stopped
+        networks:
+          - lms_net
