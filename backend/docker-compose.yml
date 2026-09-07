@@ -1,5 +1,4 @@
 services:
-
   backend:
     build:
       context: ${WORKDIR}/LMS
@@ -10,3 +9,7 @@ services:
       - ${ENV_FILE:-/git-repos/LMS/.env.example}
     networks:
       - lms_net
+      
+networks:
+  lms_net:
+    driver: bridge      
