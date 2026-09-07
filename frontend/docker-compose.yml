@@ -10,3 +10,6 @@ services:
         restart: unless-stopped
         networks:
           - lms_net
+networks:
+  lms_net:
+    driver: bridge    
