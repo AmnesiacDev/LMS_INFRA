@@ -15,4 +15,4 @@ services:
 
 networks:
   lms_net:
-    driver: bridge
+    external: true
